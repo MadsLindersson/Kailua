@@ -1,9 +1,10 @@
 package org.example;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Scanner;
 
 public class CRUD {
@@ -38,9 +39,11 @@ public class CRUD {
         String fuel_type = Input_Validation.validateStringInput(scan, "Hvilken benzintype bruger bilen?");
         int horse_power = Input_Validation.validateIntegerInput(scan,"Hvor mange hestekræfter har bilen?");
         String license_plate = Input_Validation.validateStringInput(scan, "Hvad er nummerpladen?");
-        Date reg_date = Input_Validation.validateDateInput(scan, "Hvornår er bilen registreret");
+        LocalDate reg_date = Input_Validation.validateDateInput(scan, "Hvornår er bilen registreret - (yyyy-MM-dd)");
+        System.out.println(reg_date);
         int odometer = Input_Validation.validateIntegerInput(scan, "Hvor meget har bilen kørt?");
         String car_type = Input_Validation.validateStringInput(scan, "Hvilken type er bilen?");
+
         String query = "INSERT INTO cars (brand, model, color, seats, leather_seats, aircon, gear_type, " +
                 "cruise_control, fuel_type, horse_power, license_plate, reg_date, odometer, car_type) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -58,9 +61,10 @@ public class CRUD {
         preparedStatement.setString(9, fuel_type);
         preparedStatement.setInt(10, horse_power);
         preparedStatement.setString(11, license_plate);
-        preparedStatement.setDate(12, (java.sql.Date) reg_date);
+        preparedStatement.setDate(12, Date.valueOf(reg_date));
+        System.out.println(reg_date);
         preparedStatement.setInt(13, odometer);
-        preparedStatement.setString(13, car_type);
+        preparedStatement.setString(14, car_type);
 
 
 

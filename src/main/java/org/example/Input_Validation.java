@@ -1,5 +1,9 @@
 package org.example;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Date;
 import java.util.Scanner;
@@ -31,12 +35,13 @@ public class Input_Validation {
             }
         }
     }
-    public static Date validateDateInput(Scanner scan, String prompt){
-        while (true){
+    public static LocalDate validateDateInput(Scanner scan, String prompt) {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        while (true) {
             System.out.println(prompt);
-            try{
-                return new Date(scan.nextLine());
-            }catch (DateTimeParseException e){
+            try {
+                return LocalDate.parse(scan.nextLine(), dateTimeFormatter);
+            } catch (DateTimeParseException e) {
                 System.out.println("Indtast venligst en dato i format - YYYY-MM-DD");
             }
         }

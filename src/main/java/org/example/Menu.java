@@ -60,6 +60,7 @@ public class Menu {
                     
                     """);
             String answer = scan.next();
+            scan.nextLine();
 
             switch (answer) {
                 case "1":
