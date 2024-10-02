@@ -1,10 +1,11 @@
 package org.example;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Scanner;
 
 public class Menu {
 
-    public static void menu(Scanner scan) throws SQLException {
+    public static void menu(Scanner scan, Connection connection) throws SQLException {
         boolean exitSoftware = false;
         do {
             System.out.println("""
@@ -16,7 +17,7 @@ public class Menu {
                     
                     3 -  Kontrakter
                     
-                    4 -  Quit
+                    4 -  Sluk
                     
                     """);
 
@@ -24,25 +25,25 @@ public class Menu {
 
             switch (answer) {
                 case "1":
-                    carMenu(scan);
+                    carMenu(scan, connection);
                     break;
                 case "2":
                     customerMenu(scan);
                     break;
                 case "3":
-                    rentalsMenu(scan);
+                    contractMenu(scan,connection);
                     break;
                 case "4":
                     exitSoftware = true;
                     break;
                 default:
-                    System.out.print("I did not get your answer. Try again.");
+                    System.out.print("Forkert input, prøv igen");
                     break;
             }
         } while (!exitSoftware);
     }
 
-    private static void carMenu(Scanner scan) throws SQLException {
+    private static void carMenu(Scanner scan, Connection connection) throws SQLException {
         boolean exitMenu = false;
         do {
             System.out.println("---> CARS <---");
@@ -50,13 +51,13 @@ public class Menu {
             System.out.println("""
                     >> FUNCTIONS<<
                     
-                    1 -  Add car
+                    1 -  Opret bil
                     
-                    2 -  Change car
+                    2 -  Ændr bil
                     
-                    3 -  Delete car
+                    3 -  Slet bil
                     
-                    4 -  Exit menu
+                    4 -  Gå tilbage
                     
                     """);
             String answer = scan.next();
@@ -64,7 +65,7 @@ public class Menu {
 
             switch (answer) {
                 case "1":
-                    CRUD.createCar(scan);
+                    CRUD.createCar(scan, connection);
                     break;
                 case "2":
                     //changeCar(scan);
@@ -76,35 +77,35 @@ public class Menu {
                     exitMenu = true;
                     break;
                 default:
-                    System.out.print("I did not get your answer. Try again.");
+                    System.out.print("Forkert input, prøv igen");
                     break;
             }
         } while (!exitMenu);
     }
 
 
-    private static void rentalsMenu(Scanner scan) {
+    private static void contractMenu(Scanner scan, Connection connection) throws SQLException {
         boolean exitMenu = false;
         do {
             System.out.println("---> CONTRACTS <---");
-            // Kald til metode i CRUD- listRentals.
+            CRUD.listContracts(connection);
             System.out.println("""
                     >> FUNCTIONS<<
                     
-                    1 -  Add contract
+                    1 -  Opret kontrakt
                     
-                    2 -  Change contract
+                    2 -  Ændr kontrakt
                     
-                    3 -  Delete contract
+                    3 -  Slet kontrakt
                     
-                    4 -  Exit menu
+                    4 -  Gå tilbage
                     
                     """);
             String answer = scan.next();
 
             switch (answer) {
                 case "1":
-                    //addContract(scan);
+                    CRUD.createContract(scan,connection);
                     break;
                 case "2":
                     //changeContract(scan);
@@ -116,47 +117,47 @@ public class Menu {
                     exitMenu = true;
                     break;
                 default:
-                    System.out.print("I did not get your answer. Try again.");
+                    System.out.print("Forkert input, prøv igen");
                     break;
             }
         } while (!exitMenu);
 
     }
 
-    private static void customerMenu(Scanner scan) {
+    private static void customerMenu(Scanner scan, Connection connection) throws SQLException {
         boolean exitMenu = false;
         do {
             System.out.println("---> Customer <---");
-            // Kald til metode i CRUD- list Customers.
+            CRUD.listCustomer(connection);
             System.out.println("""
                     >> FUNCTIONS<<
                     
-                    1 -  Add customer
+                    1 -  Opret kunde
                     
-                    2 -  Change customer
+                    2 -  Ændr kunde
                     
-                    3 -  Delete customer
+                    3 -  Slet kunde
                     
-                    4 -  Exit menu
+                    4 -  Gå tilbage
                     
                     """);
             String answer = scan.next();
-
+            scan.nextLine();
             switch (answer) {
                 case "1":
-                    //addCustomer(scan);
+                    CRUD.createCustomer(scan,connection);
                     break;
                 case "2":
-                    //changeCustomer(scan);
+                    CRUD.changeCustomer(scan, connection);
                     break;
                 case "3":
-                    //deleteCustomer(scan);
+                    CRUD.deleteCustomer(scan, connection);
                     break;
                 case "4":
                     exitMenu = true;
                     break;
                 default:
-                    System.out.print("I did not get your answer. Try again.");
+                    System.out.print("Forkert input, prøv igen");
                     break;
             }
         } while (!exitMenu);
