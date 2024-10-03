@@ -51,16 +51,17 @@ public class Input_Validation {
     public static String validateYesNoInput(Scanner scan , String prompt) {
         while (true){
             System.out.println(prompt);
+            String input = scan.nextLine();
             try {
-                if (scan.nextLine().equals("1")) {
+                if (input.equals("1")) {
                     return "yes";
-                } else if (scan.nextLine().equals("2")) {
+                } else if (input.equals("2")) {
                     return "no";
                 } else {
-                    return "Invalid input, please enter 1 for Yes or 2 for No.";
+                    System.out.println("Indtast venligst en input mellem 1 og 2");
                 }
             } catch (InputMismatchException e) {
-                System.out.println("Indtast venligst en input mellem 1 og 2");
+                e.printStackTrace();
             }
         }
 

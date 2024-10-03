@@ -19,19 +19,19 @@ public class CRUD {
         String aircon = Input_Validation.validateYesNoInput(scan, "Har bilen aicon? 1: Ja / 2: Nej");
         int gear_type_number;
         String gear_type = "";
-        boolean check = true;
+        boolean gear_type_Check = true;
         do {
             gear_type_number = Input_Validation.validateIntegerInput(scan, "Hvilken geartype har bilen 1: Manuel 2: Automatisk ");
             if (gear_type_number == 1) {
                 gear_type = "manuel";
-                check = false;
+                gear_type_Check = false;
             } else if (gear_type_number == 2) {
                 gear_type = "automatic";
-                check = false;
+                gear_type_Check = false;
             } else {
                 System.out.println("Forkert input. Indtast 1 eller 2.");
             }
-        } while (check);
+        } while (gear_type_Check);
 
         String cruise_control = Input_Validation.validateYesNoInput(scan, "Er der cruise control? 1: Ja / 2: Nej");
 
@@ -59,9 +59,25 @@ public class CRUD {
         int horse_power = Input_Validation.validateIntegerInput(scan, "Hvor mange hestekræfter har bilen?");
         String license_plate = Input_Validation.validateStringInput(scan, "Hvad er nummerpladen?");
         LocalDate reg_date = Input_Validation.validateDateInput(scan, "Hvornår er bilen registreret - (yyyy-MM-dd)");
-        System.out.println(reg_date);
         int odometer = Input_Validation.validateIntegerInput(scan, "Hvor meget har bilen kørt?");
-        String car_type = Input_Validation.validateStringInput(scan, "Hvilken type er bilen?");
+        int car_type_number;
+        String car_type = "";
+        boolean car_type_Check = true;
+        do {
+            car_type_number= Input_Validation.validateIntegerInput(scan, "Hvilken type er bilen? (1: Familie - 2: Luksus - 3: Sport) " );
+            if (car_type_number == 1) {
+                car_type = "Family";
+                car_type_Check = false;
+            } else if (car_type_number == 2) {
+                car_type = "Luxury";
+                car_type_Check = false;
+            } else if(car_type_number == 3){
+                    car_type = "Sport";
+                    car_type_Check = false;
+            } else {
+                System.out.println("Forkert input. Indtast 1, 2 eller 3.");
+            }
+        } while (car_type_Check);
 
         String query = "INSERT INTO cars (brand, model, color, seats, leather_seats, aircon, gear_type, " +
                 "cruise_control, fuel_type, horse_power, license_plate, reg_date, odometer, car_type) " +
@@ -155,13 +171,13 @@ public class CRUD {
     }
 
     public static void updateCar(Scanner scan, Connection connection) {
-        String license_plate = Input_Validation.validateStringInput(scan, "Hvilken bil vil du gerne ændre noget på");
+        String license_plate = Input_Validation.validateStringInput(scan, "Hvilken bil vil du gerne ændre noget på? (Brug nummerplade)");
         String column = null;
 
         List<String> validColumns = Arrays.asList("brand", "model", "color", "seats", "leather_seats", "aircon", "gear_type", "cruise_control", "fuel_type", "horse_power", "license_plate", "reg_date", "odometer", "car_type");
         while (true) {
             try {
-                column = Input_Validation.validateStringInput(scan, "Hvilken bil attribut vil du gerne ændre noget i?");
+                column = Input_Validation.validateStringInput(scan, "Hvilken bil attribut vil du gerne ændre noget i \n brand\", \"model\", \"color\", \"seats\", \"leather_seats\", \"aircon\", \"gear_type\", \"cruise_control\", \"fuel_type\", \"horse_power\", \"license_plate\", \"reg_date\", \"odometer\", \"car_type?");
                 if (!validColumns.contains(column)) {
                     throw new IllegalArgumentException("Ugyldigt kolonnenavn: " + column);
                 }
@@ -284,7 +300,7 @@ public class CRUD {
                         exit = false;
                         break;
                     case 2:
-                        whatToChange = "zip-code";
+                        whatToChange = "zip_code";
                         exit = false;
                         break;
                     case 3:
@@ -381,8 +397,6 @@ public class CRUD {
             System.out.println("Kontrakt liste kan ikke vises");
         }
     }
-
-
     public static void createContract(Scanner scan, Connection connection) {
         // contract_id er auto increment
         String license_plate = Input_Validation.validateStringInput(scan, "Hvad er bilens nummerpladen?");
@@ -409,13 +423,14 @@ public class CRUD {
         }
     }
 
-    public static void changeContract(Scanner scan, Connection connection) {
-
+    public static void changeContract (Scanner scan, Connection connection){
         String column = null;
         int contract_id = Input_Validation.validateIntegerInput(scan, "Angiv Kontrakt id på kontrakten du ønsker at ændre");
         int choice = 0;
         String value = "";
         boolean exitWhile = true;
+        LocalDate date = null;
+
         do {
             choice = Input_Validation.validateIntegerInput(scan, """
                     Skriv tallet udfra den information du ønsker at ændre i kontrakten:
@@ -425,13 +440,13 @@ public class CRUD {
                     """);
             switch (choice) {
                 case 1:
-                    column = "start_date";
-                    value = Input_Validation.validateStringInput(scan, "Hvad vil du gerne ændre start datoen til? (format: yyyy-mm-dd)");
+                    column = "start_time";
+                    date = Input_Validation.validateDateInput(scan, "Hvad vil du gerne ændre start datoen til? (format: yyyy-mm-dd)");
                     exitWhile = false;
                     break;
                 case 2:
-                    column = "end_date";
-                    value = Input_Validation.validateStringInput(scan, "Hvad vil du gerne ændre slut datoen til? (format: yyyy-mm-dd)");
+                    column = "end_time";
+                    date = Input_Validation.validateDateInput(scan, "Hvad vil du gerne ændre slut datoen til? (format: yyyy-mm-dd)");
                     exitWhile = false;
                     break;
                 case 3:
@@ -443,16 +458,24 @@ public class CRUD {
                     System.out.println("Du kan kun taste 1, 2 eller 3.");
             }
         } while (exitWhile);
-
         String updateQuery = "UPDATE contracts SET " + column + " = ? WHERE contract_id = ?";
+
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(updateQuery);
-            preparedStatement.setString(1, value);
+
+            if (choice == 1 || choice == 2) {
+                java.sql.Date dateSQL = java.sql.Date.valueOf(date);
+                preparedStatement.setDate(1, dateSQL);
+            } else {
+                preparedStatement.setString(1, value);
+            }
+
             preparedStatement.setInt(2, contract_id);
             preparedStatement.executeUpdate();
+            System.out.println("Kontrakten er blevet opdateret!\n");
         } catch (SQLException e) {
             e.printStackTrace();
-            System.out.println("Der er går noget galt i updaten");
+            System.out.println("Der er sket en fejl i opdateringen af kontrakten.");
         }
     }
 
