@@ -28,7 +28,7 @@ public class Menu {
                     carMenu(scan, connection);
                     break;
                 case "2":
-                    customerMenu(scan);
+                    customerMenu(scan, connection);
                     break;
                 case "3":
                     contractMenu(scan,connection);
@@ -47,7 +47,7 @@ public class Menu {
         boolean exitMenu = false;
         do {
             System.out.println("---> CARS <---");
-            // Kald på metoden listCars
+            CRUD.listCars(connection);
             System.out.println("""
                     >> FUNCTIONS<<
                     
@@ -68,10 +68,10 @@ public class Menu {
                     CRUD.createCar(scan, connection);
                     break;
                 case "2":
-                    //changeCar(scan);
+                    CRUD.updateCar(scan, connection);
                     break;
                 case "3":
-                    //deleteCar(scan);
+                    CRUD.deleteCar(scan, connection);
                     break;
                 case "4":
                     exitMenu = true;
@@ -102,16 +102,17 @@ public class Menu {
                     
                     """);
             String answer = scan.next();
+            scan.nextLine();
 
             switch (answer) {
                 case "1":
                     CRUD.createContract(scan,connection);
                     break;
                 case "2":
-                    //changeContract(scan);
+                    CRUD.changeContract(scan, connection);
                     break;
                 case "3":
-                    //deleteContract(scan);
+                    CRUD.deleteContract(scan, connection);
                     break;
                 case "4":
                     exitMenu = true;

@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Date;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Input_Validation {
@@ -45,5 +46,24 @@ public class Input_Validation {
                 System.out.println("Indtast venligst en dato i format - YYYY-MM-DD");
             }
         }
+    }
+
+    public static String validateYesNoInput(Scanner scan , String prompt) {
+        while (true){
+            System.out.println(prompt);
+            try {
+                if (scan.nextLine().equals("1")) {
+                    return "yes";
+                } else if (scan.nextLine().equals("2")) {
+                    return "no";
+                } else {
+                    return "Invalid input, please enter 1 for Yes or 2 for No.";
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Indtast venligst en input mellem 1 og 2");
+            }
+        }
+
+
     }
 }

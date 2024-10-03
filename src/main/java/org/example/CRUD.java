@@ -2,6 +2,8 @@ package org.example;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class CRUD {
@@ -63,7 +65,6 @@ public class CRUD {
 
         preparedStatement.executeUpdate();
         System.out.println("Bilen er tilføjet til databasen");
-
     }
 
     public static void listCars(Connection connection) {
