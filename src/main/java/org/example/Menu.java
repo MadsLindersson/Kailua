@@ -18,7 +18,6 @@ public class Menu {
                     3 -  Kontrakter
                     
                     4 -  Sluk
-                    
                     """);
 
             String answer = scan.next();
@@ -46,10 +45,10 @@ public class Menu {
     private static void carMenu(Scanner scan, Connection connection) throws SQLException {
         boolean exitMenu = false;
         do {
-            System.out.println("---> CARS <---");
+            System.out.println("---> Biler <---");
             CRUD.listCars(connection);
             System.out.println("""
-                    >> FUNCTIONS<<
+                    >> Funktioner<<
                     
                     1 -  Opret bil
                     
@@ -58,7 +57,6 @@ public class Menu {
                     3 -  Slet bil
                     
                     4 -  Gå tilbage
-                    
                     """);
             String answer = scan.next();
             scan.nextLine();
@@ -87,10 +85,10 @@ public class Menu {
     private static void contractMenu(Scanner scan, Connection connection) throws SQLException {
         boolean exitMenu = false;
         do {
-            System.out.println("---> CONTRACTS <---");
+            System.out.println("---> Kontrakter <---");
             CRUD.listContracts(connection);
             System.out.println("""
-                    >> FUNCTIONS<<
+                    >> Funktioner<<
                     
                     1 -  Opret kontrakt
                     
@@ -99,7 +97,6 @@ public class Menu {
                     3 -  Slet kontrakt
                     
                     4 -  Gå tilbage
-                    
                     """);
             String answer = scan.next();
             scan.nextLine();
@@ -128,10 +125,10 @@ public class Menu {
     private static void customerMenu(Scanner scan, Connection connection) throws SQLException {
         boolean exitMenu = false;
         do {
-            System.out.println("---> Customer <---");
+            System.out.println("---> Kunder <---");
             CRUD.listCustomer(connection);
             System.out.println("""
-                    >> FUNCTIONS<<
+                    >> Funktioner<<
                     
                     1 -  Opret kunde
                     
@@ -140,7 +137,6 @@ public class Menu {
                     3 -  Slet kunde
                     
                     4 -  Gå tilbage
-                    
                     """);
             String answer = scan.next();
             scan.nextLine();

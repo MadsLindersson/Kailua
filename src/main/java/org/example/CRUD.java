@@ -15,8 +15,8 @@ public class CRUD {
         String model = Input_Validation.validateStringInput(scan, "Hvilken model er bilen?");
         String color = Input_Validation.validateStringInput(scan, "Hvilken farve er bilen?");
         int seats = Input_Validation.validateIntegerInput(scan, "Hvor mange sæder er der i bilen?");
-        String leather_seats = Input_Validation.validateYesNoInput(scan, "Er der lædersæder i bilen? yes/no");
-        String aircon = Input_Validation.validateYesNoInput(scan, "Har bilen aicon? yes/no");
+        String leather_seats = Input_Validation.validateYesNoInput(scan, "Er der lædersæder i bilen? 1: Ja / 2: Nej");
+        String aircon = Input_Validation.validateYesNoInput(scan, "Har bilen aicon? 1: Ja / 2: Nej");
         int gear_type_number;
         String gear_type = "";
         boolean check = true;
@@ -29,12 +29,33 @@ public class CRUD {
                 gear_type = "automatic";
                 check = false;
             } else {
-                System.out.println("Wrong input");
+                System.out.println("Forkert input. Indtast 1 eller 2.");
             }
         } while (check);
 
-        String cruise_control = Input_Validation.validateYesNoInput(scan, "Er der cruise control? yes/no");
-        String fuel_type = Input_Validation.validateStringInput(scan, "Hvilken benzintype bruger bilen?");
+        String cruise_control = Input_Validation.validateYesNoInput(scan, "Er der cruise control? 1: Ja / 2: Nej");
+
+        int fuel_type_number;
+        String fuel_type = "";
+        boolean fuel_type_Check = true;
+        do {
+            fuel_type_number = Input_Validation.validateIntegerInput(scan, "Hvilken benzintype bruger bilen? 1: Benzin - 2: Diesel - 3: El - 4: Hybrid");
+            if (fuel_type_number == 1) {
+                fuel_type = "benzin";
+                fuel_type_Check = false;
+            } else if (fuel_type_number == 2) {
+                fuel_type = "diesel";
+                fuel_type_Check = false;
+            } else if(fuel_type_number == 3){
+                fuel_type = "el";
+                fuel_type_Check = false;
+            } else if (fuel_type_number == 4) {
+                fuel_type = "hybrid";
+                fuel_type_Check = false;
+            } else {
+                System.out.println("Forkert input. Indtast 1, 2, 3 eller 4.");
+            }
+        } while (fuel_type_Check);
         int horse_power = Input_Validation.validateIntegerInput(scan, "Hvor mange hestekræfter har bilen?");
         String license_plate = Input_Validation.validateStringInput(scan, "Hvad er nummerpladen?");
         LocalDate reg_date = Input_Validation.validateDateInput(scan, "Hvornår er bilen registreret - (yyyy-MM-dd)");
@@ -108,6 +129,7 @@ public class CRUD {
                 System.out.println("--------------------------------");
             }
         } catch (SQLException e) {
+            System.out.println("Der gik noget galt");
         }
     }
 
@@ -208,7 +230,7 @@ public class CRUD {
             preparedStatement.executeUpdate();
             System.out.println("Kunde er oprettet");
         } catch (SQLException e) {
-            System.out.println("Something went wrong");
+            System.out.println("Der gik noget galt");
             throw new RuntimeException(e);
         }
     }
@@ -227,7 +249,7 @@ public class CRUD {
                                 Addresse: %s
                                 Telefon nr.: %s
                                 Email: %s
-                                Driver license number: %s
+                                Kørekort nr: %s
                                 Dato for kørerkort erhvervet: %s
                                 ---------------------------------
                                 """, rs.getString("first_name") + " " + rs.getString("last_name"),
@@ -278,7 +300,7 @@ public class CRUD {
                         exit = false;
                         break;
                     default:
-                        System.out.println("Something went wrong");
+                        System.out.println("Der gik noget galt");
                 }
             } while (exit);
 
@@ -294,7 +316,8 @@ public class CRUD {
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            System.out.println("Der gik noget galt");
         }
     }
 
